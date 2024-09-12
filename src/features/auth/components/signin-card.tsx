@@ -27,11 +27,17 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [pending, setPending] = useState(false);
 
     const { signIn } = useAuthActions();
 
-    const handleProviderSignIn = (value: "github" | "google") => {
-        signIn(value);
+    const onProviderSignIn = (value: "github" | "google") => {
+        setPending(true);
+        signIn(value)
+            .finally(() => {
+                setPending(false);
+            });
+
     }
 
     return (
@@ -52,7 +58,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                         placeholder='Email'
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        disabled={false}
+                        disabled={pending}
                         required
                     />
                     <Input
@@ -60,10 +66,10 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                         placeholder='Password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        disabled={false}
+                        disabled={pending}
                         required
                     />
-                    <Button type='submit' className='w-full' size={'lg'} disabled={false}>
+                    <Button type='submit' className='w-full' size={'lg'} disabled={pending}>
                         Continue
                     </Button>
                 </form>
@@ -72,8 +78,8 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                     <Button
                         className='w-full relative'
                         size={'lg'}
-                        disabled={false}
-                        onClick={() => handleProviderSignIn('google')}
+                        disabled={pending}
+                        onClick={() => onProviderSignIn('google')}
                         variant={'outline'}
                     >
                         <FcGoogle className='size-5 absolute top-3 left-2.5' />
@@ -83,8 +89,8 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                     <Button
                         className='w-full relative'
                         size={'lg'}
-                        disabled={false}
-                        onClick={() => handleProviderSignIn("github")}
+                        disabled={pending}
+                        onClick={() => onProviderSignIn("github")}
                         variant={'outline'}
                     >
                         <FaGithub className='size-5 absolute top-3 left-2.5' />
