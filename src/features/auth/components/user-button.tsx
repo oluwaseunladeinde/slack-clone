@@ -14,7 +14,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UseCurrentUser } from "../hooks/use-current-user";
+import { UseCurrentUser } from "../api/use-current-user";
 import { Loader, LogOut } from "lucide-react";
 import { getInitialCharacters } from "@/lib/utils";
 
