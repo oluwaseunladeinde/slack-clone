@@ -29,6 +29,8 @@ export const WorkspaceSwitcher = () => {
         (workspace) => workspace?._id !== workspaceId
     );
 
+    console.log({ _open, workspacesLoading });
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
