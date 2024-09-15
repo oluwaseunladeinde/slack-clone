@@ -12,7 +12,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -46,7 +45,7 @@ export const WorkspaceSwitcher = () => {
             <DropdownMenuContent side="bottom" align="start" className="w-64">
                 <DropdownMenuItem onClick={() => router.push(`/workspace/${workspaceId}`)} className="cursor-pointer flex-col justify-start items-start capitalize">
                     {workspace?.name}
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-[#481349]">
                         Active workspace
                     </span>
                 </DropdownMenuItem>

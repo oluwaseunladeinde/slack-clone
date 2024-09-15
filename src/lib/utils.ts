@@ -21,3 +21,13 @@ export const getInitialCharacters = (fullName: string | undefined): string => {
   // Combine the initials
   return `${firstNameInitial}${lastNameInitial}`;
 }
+
+
+export const generateWorkspaceCode = () => {
+  const code = Array.from(
+    { length: 6 },
+    () => "0123456789abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 36)]
+  ).join("");
+
+  return code;
+};

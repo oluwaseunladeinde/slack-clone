@@ -15,7 +15,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UseCurrentUser } from "../api/use-current-user";
-import { Loader, LogOut } from "lucide-react";
+import { Loader2, LogOut } from "lucide-react";
 import { getInitialCharacters } from "@/lib/utils";
 
 
@@ -26,7 +26,7 @@ export const UserButton = () => {
 
     if (isLoading) {
         return (
-            <Loader className="size-4 animate-spin text-muted-foreground" />
+            <Loader2 className="size-6 animate-spin text-muted-foreground" />
         )
     }
 
@@ -37,6 +37,8 @@ export const UserButton = () => {
     const { name, image } = data;
     //const avatarFallback = name!.charAt(0).toUpperCase();
     const avatarFallback = getInitialCharacters(name);
+
+    console.log({ image, name });
 
     return (
         <DropdownMenu modal={false}>
