@@ -1,6 +1,35 @@
 import { v } from "convex/values";
-import { query } from "./_generated/server";
+import { query, mutation } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
+
+
+export const create = mutation({
+    args: {
+        name: v.string(),
+        workspaceId: v.id("workspaces")
+    },
+    handler: async (ctx, args) => {
+        const userId = await getAuthUserId(ctx);
+        if (!userId) {
+            throw new Error(`Unauthorized`);
+        }
+
+        const member = await ctx.db
+            .query("members")
+            .withIndex("by_workspace_id", (q) => q.eq("workspaceId", args.workspaceId))
+            .unique();
+
+        if (!member || member.role !== "admin")
+            throw new Error(`Unauthorized`);
+
+        const channelId = await ctx.db.insert("channels", {
+            name: args.name.replace(/\s/g, '-').toLowerCase(),
+            workspaceId: args.workspaceId
+        });
+
+        return channelId;
+    },
+});
 
 export const current = query({
     args: { workspaceId: v.id("workspaces") },
