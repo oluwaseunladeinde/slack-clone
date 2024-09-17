@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Copy, RefreshCcw } from "lucide-react";
 import { Id } from "../../../../../convex/_generated/dataModel";
 import { useNewJoinCode } from "@/features/workspaces/api/use-new-joincode";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface InviteModalProps {
     open: boolean;
@@ -24,9 +25,17 @@ interface InviteModalProps {
 
 export const InviteModal = ({ open, setOpen, name, joinCode, workspaceId }: InviteModalProps) => {
 
+    const [ConfirmDialog, confirm] = useConfirm(
+        "Are you sure?",
+        "Old invite link will be deactivated permanently while a new code is generated."
+    );
+
     const { mutate, isPending } = useNewJoinCode();
 
-    const handleNewCode = () => {
+    const handleNewCode = async () => {
+        const ok = await confirm();
+        if (!ok) return;
+
         mutate({ workspaceId }, {
             onSuccess() {
                 toast.success('Invite Code was regenerated successfully')
@@ -48,8 +57,9 @@ export const InviteModal = ({ open, setOpen, name, joinCode, workspaceId }: Invi
 
     return (
         <>
+            <ConfirmDialog />
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="bg-gray-50 overflow-hidden">
+                <DialogContent className="p-0 bg-gray-50 overflow-hidden">
                     <DialogHeader className="p-4 border-b bg-white">
                         <DialogTitle>
                             Invite people to {name}
@@ -60,8 +70,8 @@ export const InviteModal = ({ open, setOpen, name, joinCode, workspaceId }: Invi
                         <p className="text-4xl font-bold tracking-widest uppercase">{joinCode}</p>
                         <Button onClick={handleCopy} variant={"ghost"} size={"sm"}>Copy link <Copy className="size-4 ml-2" /></Button>
                     </div>
-                    <div className="flex items-center justify-between w-full">
-                        <Button variant={"outline"} onClick={handleNewCode} disabled={isPending}>
+                    <div className="flex items-center p-5 justify-between w-full">
+                        <Button className="bg-white" variant={"outline"} onClick={handleNewCode} disabled={isPending}>
                             New code
                             <RefreshCcw className="size-4 ml-2" />
                         </Button>

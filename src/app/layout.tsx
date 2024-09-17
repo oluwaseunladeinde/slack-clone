@@ -8,6 +8,7 @@ import { Modals } from "@/components/modals";
 
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { JotaiProvider } from "@/providers/jotia-provider";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,9 +39,16 @@ export default function RootLayout({
         >
           <ConvexClientProvider>
             <JotaiProvider>
-              <Toaster />
-              <Modals />
-              {children}
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <Toaster />
+                <Modals />
+                {children}
+              </ThemeProvider>
             </JotaiProvider>
 
           </ConvexClientProvider>
