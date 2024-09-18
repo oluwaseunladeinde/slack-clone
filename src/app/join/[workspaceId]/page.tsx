@@ -15,8 +15,6 @@ import { useJoin } from "@/features/workspaces/api/use-join";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-
-
 interface WorkspaceJoinPageProps {
     params: {
         workspaceId: Id<"workspaces">;
