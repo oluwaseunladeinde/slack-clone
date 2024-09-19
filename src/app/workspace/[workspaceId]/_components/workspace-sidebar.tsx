@@ -6,6 +6,7 @@ import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 
+import { useChannelId } from "@/hooks/use-channel-id";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 
 import { WorkspaceHeader } from "./workspace-header";
@@ -16,6 +17,7 @@ import { UserItem } from "./user-item";
 
 
 export const WorkspaceSidebar = () => {
+    const channelId = useChannelId();
     const workspaceId = useWorkspaceId();
 
     const [_open, setOpen] = useCreateChannelModal();
@@ -57,13 +59,18 @@ export const WorkspaceSidebar = () => {
                     icon={SendHorizonal}
                 />
             </div>
-            <WorkspaceSection label="Channels" hint="New Channel" onNew={member.role === "admin" ? () => setOpen(true) : undefined}>
+            <WorkspaceSection
+                label="Channels"
+                hint="New Channel"
+                onNew={member.role === "admin" ? () => setOpen(true) : undefined}
+            >
                 {channels?.map((item) => (
                     <SidebarItem
                         key={item._id}
                         label={item.name}
                         icon={HashIcon}
                         id={item._id}
+                        variant={channelId === item._id ? "active" : "default"}
                     />
                 ))}
             </WorkspaceSection>
