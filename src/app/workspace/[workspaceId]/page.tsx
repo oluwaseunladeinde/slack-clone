@@ -1,7 +1,5 @@
 "use client";
 
-import { Loader, TriangleAlert } from "lucide-react";
-import Image from "next/image";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 
@@ -11,6 +9,7 @@ import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { DataLoading, DataNotFound } from "@/components/data-result";
 
 const WorkspaceIdPage = () => {
 
@@ -47,38 +46,20 @@ const WorkspaceIdPage = () => {
         isAdmin
     ]);
 
-    if (workspaceLoading || channelsLoading) {
+    if (workspaceLoading || channelsLoading || memberLoading) {
         return (
-            <div className="h-full flex flex-col gap-y-8 items-center justify-center bg-white p-8 rounded-lg shadow-md ">
-                <Image src={"/hash-2.svg"} alt="logo" width={100} height={60} />
-                <div className="flex flex-col gap-y-4 items-center justify-center max-w-md">
-                    <Loader className="size-12 animate-spin text-muted-foreground" />
-                    <p className="font-semibold text-blue-500 items-center">Please wait...</p>
-                </div>
-            </div>
+            <DataLoading message="Please wait..." />
         )
     }
 
-    if (!workspace) {
+    if (!workspace || !member) {
         return (
-            <div className="h-full flex flex-col gap-y-8 items-center justify-center bg-white p-8 rounded-lg shadow-md ">
-                <Image src={"/hash-2.svg"} alt="logo" width={100} height={60} />
-                <div className="flex flex-col gap-y-4 items-center justify-center max-w-md">
-                    <TriangleAlert className="size-12 text-muted-foreground" />
-                    <span className="font-semibold text-muted-foreground items-center">Workspace not found</span>
-                </div>
-            </div>
+            <DataNotFound message="Workspace not found" />
         )
     }
 
     return (
-        <div className="h-full flex flex-col gap-y-8 items-center justify-center bg-white p-8 rounded-lg shadow-md ">
-            <Image src={"/hash-2.svg"} alt="logo" width={100} height={60} />
-            <div className="flex flex-col gap-y-4 items-center justify-center max-w-md">
-                <TriangleAlert className="size-12 text-muted-foreground" />
-                <span className="font-semibold text-muted-foreground items-center">No channel found</span>
-            </div>
-        </div>
+        <DataNotFound message="No channel found" />
     )
 };
 
