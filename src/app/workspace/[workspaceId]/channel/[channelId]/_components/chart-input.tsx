@@ -19,7 +19,6 @@ export const ChartInput = ({ placeholder }: ChartInputProps) => {
                 onSubmit={() => { }}
                 disabled={false}
                 innerRef={editorRef}
-                variant="create"
             />
         </div>
     )
