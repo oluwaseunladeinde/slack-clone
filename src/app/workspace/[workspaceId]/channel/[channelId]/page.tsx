@@ -5,6 +5,7 @@ import { useChannelId } from "@/hooks/use-channel-id";
 
 import { DataLoading, DataNotFound } from "@/components/data-result";
 import { ChannelHeader } from "./_components/channel-header";
+import { ChartInput } from "./_components/chart-input";
 
 const ChannelIdPage = () => {
 
@@ -26,6 +27,8 @@ const ChannelIdPage = () => {
     return (
         <div className="flex flex-col h-full">
             <ChannelHeader title={channel.name} />
+            <div className="flex-1" />
+            <ChartInput placeholder={`Message # ${channel.name}`} />
         </div>
     )
 }
