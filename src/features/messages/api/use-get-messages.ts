@@ -1,14 +1,29 @@
-import { useQuery } from "convex/react"
-import { api } from "../../../../convex/_generated/api"
-import { Id } from "../../../../convex/_generated/dataModel"
+import { usePaginatedQuery } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
+import { Id } from "../../../../convex/_generated/dataModel";
 
-interface UseGetMembersProps {
-    workspaceId: Id<"workspaces">;
+import { paginationOptsValidator } from "convex/server";
+
+const BATCH_SIZE = 20;
+
+interface UseGetMessagesProps {
+    parentMessageId?: Id<"messages">,
+    channelId?: Id<"channels">,
+    conversationId?: Id<"conversations">,
 }
 
-export const useGetMembers = ({ workspaceId }: UseGetMembersProps) => {
-    const data = useQuery(api.members.get, { workspaceId });
-    const isLoading = data === undefined;
+export type GetMessagesReturnTtype = typeof api.messages.get._returnType["page"];
 
-    return { data, isLoading };
+export const UseGetMessages = ({ parentMessageId, channelId, conversationId }: UseGetMessagesProps) => {
+    const { results, status, loadMore } = usePaginatedQuery(
+        api.messages.get,
+        { channelId, parentMessageId, conversationId },
+        { initialNumItems: BATCH_SIZE }
+    );
+
+    return {
+        results,
+        status,
+        loadMore: () => loadMore(BATCH_SIZE)
+    };
 }
