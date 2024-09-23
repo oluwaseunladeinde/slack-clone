@@ -8,8 +8,8 @@ type RequestType = {
     workspaceId: Id<"workspaces">,
     image?: Id<"_storage">,
     channelId?: Id<"channels">,
+    conversationId?: Id<"conversations">,
     parentMessageId?: Id<"messages">,
-    // TODO: Add converssation ID
 };
 type ResponseType = Id<"messages"> | null;
 
@@ -19,7 +19,6 @@ type Options = {
     onSettled?: () => void;
     throwError?: boolean;
 }
-
 
 export const useCreateMessage = () => {
     const [data, setData] = useState<ResponseType>(null);
