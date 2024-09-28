@@ -5,19 +5,21 @@ import { useGetChannel } from "@/features/channels/api/use-get-channel";
 import { useChannelId } from "@/hooks/use-channel-id";
 
 import { DataLoading, DataNotFound } from "@/components/data-result";
+import { MessageList } from "@/components/message-list";
+
 import { ChannelHeader } from "./_components/channel-header";
 import { ChartInput } from "./_components/chart-input";
+
 
 
 const ChannelIdPage = () => {
     const channelId = useChannelId();
 
     const { data: channel, isLoading: channelLoading } = useGetChannel({ id: channelId });
-    const { results } = UseGetMessages({ channelId });
+    const { results, status, loadMore } = UseGetMessages({ channelId });
 
 
-
-    if (channelLoading) {
+    if (channelLoading || status === "LoadingFirstPage") {
         return (
             <DataLoading message="Please wait..." />
         )
@@ -32,9 +34,14 @@ const ChannelIdPage = () => {
     return (
         <div className="flex flex-col h-full">
             <ChannelHeader title={channel.name} />
-            <div className="flex-1">
-                {JSON.stringify(results)}
-            </div>
+            <MessageList
+                channelName={channel.name}
+                channleCreationTime={channel._creationTime}
+                data={results}
+                loadMore={loadMore}
+                isLoadingMore={status === "LoadingMore"}
+                canLoadMore={status === "CanLoadMore"}
+            />
             <ChartInput placeholder={`Message # ${channel.name}`} />
         </div>
     )
