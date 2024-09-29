@@ -6,6 +6,7 @@ import { Thumbnail } from "./thumbnail";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 import { Doc, Id } from "../../convex/_generated/dataModel";
+import { MessageToolbar } from "./message-toolbar";
 
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
 
@@ -104,6 +105,17 @@ export const Message = ({
                     {updatedAt ? (<span className="text-xs text-muted-foreground">(edited)</span>) : null}
                 </div>
             </div>
+            {!isEditing && (
+                <MessageToolbar
+                    isAuthor={isAuthor}
+                    isPending={false}
+                    handleEdit={() => setEditingId(id)}
+                    handleThread={() => { }}
+                    handleDelete={() => { }}
+                    handleReaction={() => { }}
+                    hideThreadButton={hideThreadButton}
+                />
+            )}
         </div>
     )
 }
