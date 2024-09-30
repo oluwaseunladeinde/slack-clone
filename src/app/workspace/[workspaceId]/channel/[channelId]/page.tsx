@@ -1,6 +1,6 @@
 "use client";
 
-import { UseGetMessages } from "@/features/messages/api/use-get-messages";
+import { useGetMessages } from "@/features/messages/api/use-get-messages";
 import { useGetChannel } from "@/features/channels/api/use-get-channel";
 import { useChannelId } from "@/hooks/use-channel-id";
 
@@ -16,7 +16,7 @@ const ChannelIdPage = () => {
     const channelId = useChannelId();
 
     const { data: channel, isLoading: channelLoading } = useGetChannel({ id: channelId });
-    const { results, status, loadMore } = UseGetMessages({ channelId });
+    const { results, status, loadMore } = useGetMessages({ channelId });
 
 
     if (channelLoading || status === "LoadingFirstPage") {

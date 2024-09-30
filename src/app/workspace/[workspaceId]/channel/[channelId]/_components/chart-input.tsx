@@ -36,7 +36,6 @@ export const ChartInput = ({ placeholder }: ChartInputProps) => {
     const { mutate: generateUploadUrl } = useGenerateUploadUrl();
 
     const handleSubmit = async ({ body, image }: { body: string, image: File | null }) => {
-        console.log({ body, image });
 
         try {
             setIsPending(true);
