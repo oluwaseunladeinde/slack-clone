@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
-export const getInitialCharacters = (fullName: string | undefined): string => {
+export const getInitialCharacters = (fullName: string | undefined, firstOnly: boolean = true): string => {
 
   if (fullName === undefined) {
     return '';
@@ -17,8 +17,12 @@ export const getInitialCharacters = (fullName: string | undefined): string => {
 
   // Extract the first character from the first and last words
   const firstNameInitial = words[0][0];
-  const lastNameInitial = words[words.length - 1][0];
 
+  if (firstOnly) {
+    return `${firstNameInitial}`;
+  }
+
+  const lastNameInitial = words[words.length - 1][0];
   // Combine the initials
   return `${firstNameInitial}${lastNameInitial}`;
 }

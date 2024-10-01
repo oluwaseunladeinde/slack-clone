@@ -9,12 +9,12 @@ import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { GetMessagesReturnTtype } from "@/features/messages/api/use-get-messages";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 
-import { Message } from "./message";
-import { ChannelHero } from "./channel-hero";
-
+import { Message } from "@/components/message";
+import { ChannelHero } from "@/components/channel-hero";
+import { ConversationHero } from "@/components/conversation-hero";
 
 interface MessageListProps {
-    channelName: string;
+    channelName?: string;
     channleCreationTime?: number;
     data: GetMessagesReturnTtype | undefined;
     loadMore: () => void;
@@ -137,6 +137,13 @@ export const MessageList = ({
                 <ChannelHero
                     name={channelName}
                     creationTime={channleCreationTime}
+                />
+            )}
+
+            {variant === "conversation" && (
+                <ConversationHero
+                    name={memberName}
+                    image={memberImage}
                 />
             )}
         </div>
