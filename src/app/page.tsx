@@ -27,7 +27,7 @@ export default function Home() {
   }, [workspaceId, isLoading, open, setOpen, router])
 
   return (
-    <div>
+    <div className="flex h-full w-full items-center justify-center">
       <DataLoading message="Please wait..." />
     </div>
   );

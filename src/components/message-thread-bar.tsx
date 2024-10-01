@@ -23,7 +23,7 @@ export const MessageThreadBar = ({ count, name = "Member", image, timestamp, onC
             <div className="flex items-center overflow-hidden gap-2">
                 <Avatar className="size-6 shrink-0">
                     <AvatarImage src={image} />
-                    <AvatarFallback className="text-sm bg-sky-500 text-white">
+                    <AvatarFallback className="text-sm">
                         {getInitialCharacters(name)}
                     </AvatarFallback>
                 </Avatar>
