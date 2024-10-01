@@ -18,7 +18,6 @@ const ChannelIdPage = () => {
     const { data: channel, isLoading: channelLoading } = useGetChannel({ id: channelId });
     const { results, status, loadMore } = useGetMessages({ channelId });
 
-
     if (channelLoading || status === "LoadingFirstPage") {
         return (
             <DataLoading message="Please wait..." />

@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Doc, Id } from "../../convex/_generated/dataModel";
 import { useConfirm } from "@/hooks/use-confirm";
 import { MessageReactions } from "./message-reactions";
+import { MessageThreadBar } from "./message-thread-bar";
 
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
@@ -38,6 +39,7 @@ interface MessageProps {
     createdAt: Doc<"messages">["_creationTime"];
     threadCount?: number;
     threadImage?: string;
+    threadName?: string;
     threadTimestamp?: number;
     isEditing: boolean;
     setEditingId: (id: Id<"messages"> | null) => void;
@@ -66,9 +68,9 @@ export const Message = ({
     hideThreadButton,
     threadCount,
     threadImage,
+    threadName,
     threadTimestamp
 }: MessageProps) => {
-
     const { parentMessageId, onOpenMessage, onCloseMessage } = usePanel();
 
     const avatarCallback = authorName.charAt(0).toUpperCase();
@@ -155,6 +157,13 @@ export const Message = ({
                                 <Thumbnail url={image} />
                                 {updatedAt ? (<span className="text-xs text-muted-foreground">(edited)</span>) : null}
                                 <MessageReactions data={reactions} onChange={handleReaction} />
+                                <MessageThreadBar
+                                    name={threadName}
+                                    count={threadCount}
+                                    image={threadImage}
+                                    timestamp={threadTimestamp}
+                                    onClick={() => onOpenMessage(id)}
+                                />
                             </div>
                         )}
                     </div>
@@ -219,6 +228,13 @@ export const Message = ({
                             <Thumbnail url={image} />
                             {updatedAt ? (<span className="text-xs text-muted-foreground">(edited)</span>) : null}
                             <MessageReactions data={reactions} onChange={handleReaction} />
+                            <MessageThreadBar
+                                name={threadName}
+                                count={threadCount}
+                                image={threadImage}
+                                timestamp={threadTimestamp}
+                                onClick={() => onOpenMessage(id)}
+                            />
                         </div>
                     )}
                 </div>

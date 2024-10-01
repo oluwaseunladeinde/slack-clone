@@ -15,17 +15,20 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
         return {
             count: 0,
             image: undefined,
-            timestamp: 0
+            timestamp: 0,
+            name: "",
         }
     }
 
     const lastMessage = messages[messages.length - 1];
     const lastMessageMember = await populateMember(ctx, lastMessage.memberId);
+
     if (!lastMessageMember) {
         return {
             count: 0,
             image: undefined,
-            timeStamp: 0
+            timeStamp: 0,
+            name: "",
         }
     }
     const lastMessageUser = await populateUser(ctx, lastMessageMember.userId);
@@ -33,7 +36,8 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
     return {
         count: messages.length,
         image: lastMessageUser?.image,
-        timeStamp: lastMessage._creationTime
+        timestamp: lastMessage._creationTime,
+        name: lastMessageUser?.name
     }
 }
 
@@ -119,9 +123,6 @@ export const getById = query({
             user,
             member,
             reactions: reactionsWithoutMemberIdProperty,
-
-
-
         }
     }
 });
@@ -173,6 +174,7 @@ export const get = query({
                         }
                         const reactions = await populateReactions(ctx, message._id);
                         const thread = await populateThread(ctx, message._id);
+
                         const image = message.image ? await ctx.storage.getUrl(message.image) : null;
 
                         const reatcionsWithCount = reactions.map((reaction) => {
@@ -213,6 +215,7 @@ export const get = query({
                             threadCount: thread.count,
                             threadImage: thread.image,
                             threadTimestamp: thread.timestamp,
+                            threadName: thread.name
                         }
                     })
                 )

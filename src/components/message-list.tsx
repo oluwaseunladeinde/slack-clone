@@ -6,7 +6,7 @@ import { TIME_THRESHOLD } from "@/constants";
 import { Id } from "../../convex/_generated/dataModel";
 
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { GetMessagesReturnTtype } from "@/features/messages/api/use-get-messages";
+import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 
 import { Message } from "@/components/message";
@@ -16,7 +16,7 @@ import { ConversationHero } from "@/components/conversation-hero";
 interface MessageListProps {
     channelName?: string;
     channleCreationTime?: number;
-    data: GetMessagesReturnTtype | undefined;
+    data: GetMessagesReturnType | undefined;
     loadMore: () => void;
     isLoadingMore: boolean;
     canLoadMore: boolean;
@@ -60,7 +60,7 @@ export const MessageList = ({
             return groups;
         },
         {} as Record<string, typeof data>,
-    )
+    );
 
     return (
         <div className="flex flex-1 flex-col-reverse pb-4 overflow-y-auto messages-scrollbar">
@@ -97,6 +97,7 @@ export const MessageList = ({
                                 createdAt={message._creationTime}
                                 threadCount={message.threadCount}
                                 threadImage={message.threadImage}
+                                threadName={message.threadName}
                                 threadTimestamp={message.threadTimestamp}
                                 isEditing={editingId === message._id}
                                 setEditingId={setEditingId}
