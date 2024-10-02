@@ -109,7 +109,6 @@ export const Profile = ({
         });
     }
 
-
     if (loadingMember || loadingCurrentMember) {
         return (
             <div className="h-full flex flex-col">
