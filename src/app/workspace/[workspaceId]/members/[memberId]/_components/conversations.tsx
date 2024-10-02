@@ -1,11 +1,16 @@
 import { useMemberId } from "@/hooks/use-member-id";
-import { Id } from "../../../../../../../convex/_generated/dataModel"
+
+import { usePanel } from "@/hooks/use-panel";
+
+import { Id } from "../../../../../../../convex/_generated/dataModel";
+
 import { useGetMember } from "@/features/members/api/use-get-member";
 import { useGetMessages } from "@/features/messages/api/use-get-messages";
+
+import { MessageList } from "@/components/message-list";
 import { DataLoading } from "@/components/data-result";
 import { MemberHeader } from "./member-header";
 import { MemberChartInput } from "./memeber-chart-input";
-import { MessageList } from "@/components/message-list";
 
 interface ConversationProps {
     id: Id<"conversations">;
@@ -13,6 +18,8 @@ interface ConversationProps {
 
 export const Conversation = ({ id }: ConversationProps) => {
     const memberId = useMemberId();
+
+    const { onOpenProfile } = usePanel();
 
     const { data: member, isLoading: memberLoading } = useGetMember({ id: memberId });
     const { results, status, loadMore } = useGetMessages({
@@ -30,7 +37,7 @@ export const Conversation = ({ id }: ConversationProps) => {
             <MemberHeader
                 memberName={member?.user.name}
                 memberImage={member?.user.image}
-                onClick={() => { }}
+                onClick={() => onOpenProfile(memberId)}
             />
             <MessageList
                 data={results}
